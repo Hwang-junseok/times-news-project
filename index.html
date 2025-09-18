@@ -11,6 +11,7 @@
       crossorigin="anonymous"
     />
     <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   </head>
 
   <body>
@@ -35,14 +36,17 @@
             <button>Energy</button>
         </div>
     </div>
-    <i class="fas fa-bars hide icon-button" onclick="openNav()"></i>
-    <i class="fas fa-search icon-button" onclick="openSearchBox()"></i>
-                <span id="input-area">
-                    <input type="text" id="search-input" placeholder="search" />
-                    <button class="search-button" onclick="searchNews()">Go</button>
-                </span>
+    
     <section class="container">
-      <section>
+      <div class="head-line-section">
+        <div>
+          <i class="fas fa-bars hide icon-button" onclick="openNav()"></i>
+          <i class="fas fa-search icon-button" onclick="openSearchBox()"></i>
+          <span id="input-area">
+            <input type="text" id="search-input" placeholder="search" />
+            <button class="search-button" onclick="searchNews()">Go</button>
+          </span>
+        </div>
         <div class="head-line">
           <svg viewBox="0 0 184 25" fill="#000" aria-hidden="true">
             <path
@@ -67,7 +71,7 @@
             <button>Gaming</button>
             <button>Energy</button>
         </div>
-      </section> 
+      </div> 
       <section id="news-board">
         <div class="row news">
             <div class="col-lg-4">
@@ -90,7 +94,7 @@
       integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
       crossorigin="anonymous"
     ></script>
-    <script src="main.js"></script>
+     <script src="main.js"></script>
      <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.0/moment.min.js"></script>
   </body>
 </html>
