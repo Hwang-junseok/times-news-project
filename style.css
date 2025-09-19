@@ -1,3 +1,6 @@
+.i {
+    display: none;
+}
 .head-line{
     margin-top: 1em;
     display: flex;

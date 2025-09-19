@@ -3,7 +3,7 @@ let newsList = [];
 const menus = document.querySelectorAll(".menus button")
 menus.forEach((menu) => menu.addEventListener("click", (event)=>getNewsByCategory(event)));
 
-let url = new URL(`https://newsapi.org/v2/top-headlines?country=us&category&apiKey=${apiKey}`)
+let url = new URL(`https://noona-times-be-5ca9402f90d9.herokuapp.com/top-headlines?country=kr&apiKey=${apiKey}`)
         //`https://noona-times-be-5ca9402f90d9.herokuapp.com/top-headlines?country=kr&apiKey=${apiKey}`
         //`https://newsapi.org/v2/top-headlines?country=us&category&apiKey=${apiKey}`
 
