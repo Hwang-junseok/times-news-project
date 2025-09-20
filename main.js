@@ -4,13 +4,26 @@ let totalPage = 1;
 const menus = document.querySelectorAll(".menus button")
 menus.forEach((menu) => menu.addEventListener("click", (event)=>getNewsByCategory(event)));
 
-let url = new URL(`https://noona-times-be-5ca9402f90d9.herokuapp.com/top-headlines?country=kr&apiKey=${apiKey}`)
+let url = new URL(`https://noona-times-be-5ca9402f90d9.herokuapp.com/top-headlines?country=us&category&apiKey=${apiKey}`)
         //`https://noona-times-be-5ca9402f90d9.herokuapp.com/top-headlines?country=kr&apiKey=${apiKey}`
         //`https://newsapi.org/v2/top-headlines?country=us&category&apiKey=${apiKey}`
 let totalResults = 0
 let page = 1
 const pageSize = 10
 const groupSize = 5
+
+document
+  .getElementById("search-input")
+  .addEventListener("keydown", function (event) {
+    if (event.key === "Enter") {
+      getNewsByKeyword();
+      event.preventDefault(); 
+    }
+  });
+
+document.getElementById("search-input").addEventListener("focus", function () {
+  this.value = ""; 
+});
 
 const getNews = async () => {
     try {
@@ -46,17 +59,17 @@ const getNewsByCategory = async (event) => {
     const category = event.target.textContent.toLowerCase();
     page = 1;
     url = new URL(`https://noona-times-be-5ca9402f90d9.herokuapp.com/top-headlines?country=us&category=${category}&apiKey=${apiKey}`);
-    getNews()
+    await getNews()
 };
 const getNewsByKeyword = async () => {
     const keyword = document.getElementById("search-input").value;
     page = 1;
     url = new URL(`https://noona-times-be-5ca9402f90d9.herokuapp.com/top-headlines?country=us&q=${keyword}&apiKey=${apiKey}`);
-    getNews()
+    await getNews()
 };
 
 const openNav = () => {
-    document.getElementById("mysidenav").style.width = "250px";
+    document.getElementById("mySidenav").style.width = "250px";
 };
 const closeNav =  () => {
     document.getElementById("mySidenav").style.width = "0";
