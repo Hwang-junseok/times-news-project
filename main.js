@@ -3,16 +3,28 @@ let newsList = [];
 const menus = document.querySelectorAll(".menus button")
 menus.forEach((menu) => menu.addEventListener("click", (event)=>getNewsByCategory(event)));
 
-let url = new URL(`https://noona-times-be-5ca9402f90d9.herokuapp.com/top-headlines?country=kr&apiKey=${apiKey}`)
+let url = new URL(`https://newsapi.org/v2/top-headlines?country=us&category&apiKey=${apiKey}`)
         //`https://noona-times-be-5ca9402f90d9.herokuapp.com/top-headlines?country=kr&apiKey=${apiKey}`
         //`https://newsapi.org/v2/top-headlines?country=us&category&apiKey=${apiKey}`
 
-const getNews = async()=>{
-    const response = await fetch(url);
-    const data = await response.json();
-    newsList = data.articles;
-    render();
-}
+const getNews = async () => {
+    try {
+        const response = await fetch(url);
+
+        const data = await response.json();
+        if(response.status === 200) {
+            if(data.articles.length === 0){
+                throw new Error("No result for this search");
+            }
+            newsList = data.articles;
+            render();
+        }else {
+            throw new Error (data.message);
+        }
+    }catch(error) {
+        errorRender(error.message);
+    }
+};
     
 const getLatestNews = async () => {
     const url = new URL(`https://newsapi.org/v2/top-headlines?country=us&category&apiKey=${apiKey}`
@@ -61,13 +73,22 @@ const render=()=>{
                     }
                 </p>
                 <div>
-                    ${news.source.name || "no source"} ${moment(news.publifshedAt).fromNow()}
+                    ${news.source.name || "no source"} ${moment(news.publishedAt).fromNow()}
                 </div>
             </div>
         </div>`).join('');
-    console.log("html", newsHTMl)
+    
     document.getElementById("news-board").innerHTML=newsHTMl
 };
+
+const errorRender = (errorMessage) => {
+    const errorHTML = `<div class="alert alert-danger" role="alert">
+    ${errorMessage}
+    </div>`;
+
+    document.getElementById("news-board").innerHTML = errorHTML;
+};
+
 getLatestNews();
 
  //1. 버튼들에 클릭이벤트주기
