@@ -1,5 +1,6 @@
 const apiKey = `d114bde3033b42e2b269078193ce6b0f`;
 let newsList = [];
+let totalPage = 1;
 const menus = document.querySelectorAll(".menus button")
 menus.forEach((menu) => menu.addEventListener("click", (event)=>getNewsByCategory(event)));
 
@@ -23,6 +24,7 @@ const getNews = async () => {
                 throw new Error("No result for this search");
             }
             newsList = data.articles;
+            totalPage = Math.ceil(data.totalResults / pageSize);
             totalResults = data.totalResults
             render();
             paginationRender();
@@ -35,18 +37,21 @@ const getNews = async () => {
 };
     
 const getLatestNews = async () => {
-    const url = new URL(`https://newsapi.org/v2/top-headlines?country=us&category&apiKey=${apiKey}`
+    page = 1;
+    url = new URL(`https://noona-times-be-5ca9402f90d9.herokuapp.com/top-headlines?country=us&category&apiKey=${apiKey}`
     );
-    getNews()
+    await getNews()
 };
 const getNewsByCategory = async (event) => {
     const category = event.target.textContent.toLowerCase();
-    url = new URL(`https://newsapi.org/v2/top-headlines?country=us&category=${category}&apiKey=${apiKey}`);
+    page = 1;
+    url = new URL(`https://noona-times-be-5ca9402f90d9.herokuapp.com/top-headlines?country=us&category=${category}&apiKey=${apiKey}`);
     getNews()
 };
 const getNewsByKeyword = async () => {
     const keyword = document.getElementById("search-input").value;
-    url = new URL(`https://newsapi.org/v2/top-headlines?country=us&q=${keyword}&apiKey=${apiKey}`);
+    page = 1;
+    url = new URL(`https://noona-times-be-5ca9402f90d9.herokuapp.com/top-headlines?country=us&q=${keyword}&apiKey=${apiKey}`);
     getNews()
 };
 
@@ -104,24 +109,38 @@ const paginationRender = () => {
     //totalpages
     const totalPages = Math.ceil(totalResults / pageSize);
     //pageGroup
-    const pageGroup = Math.ceil(page / groupSize);
+    let paginationHTML = ``;
+    const pageGroup = Math.ceil(page / 5);
     //lastPage
-    let lastPage = pageGroup * groupSize;
-    //마지막 페이지그룹이 그룹사이즈보다 작다? lastpage = totalpage
+    let lastPage = pageGroup * 5;
+    //마지막 페이지그룹이 그룹사이즈보다 작다? lastPage = totalPage
     if(lastPage > totalPages) {
         lastPage = totalPages
     }
 
     //firstPage
-    const firstPage = lastPage - (groupSize - 1)<=0? 1: lastPage - (groupSize - 1);
-
-    let paginationHTML = ``;
-    
+    //const firstPage = lastPage - (groupSize - 1)<=0? 1: lastPage - (groupSize - 1);
+    let firstPage = lastPage - 4 <= 0 ? 1 : lastPage - 4;
+    console.log("fff", firstPage);
+    if (page > 1) {
+     paginationHTML = `<li class="page-item" onclick="moveToPage(1)">
+                        <a class="page-link" href='#'>&lt;&lt;</a>
+                      </li><li class="page-item" onclick="moveToPage(${page-1})">
+                      <a class="page-link" href="#">&lt;</a>
+                      </li>`;
+    }
     for(let i = firstPage; i <= lastPage; i++){
         paginationHTML += `<li class="page-item ${
             i===page?'active':''
-        }" onclick="moveToPage(${i})"><a class="page-link">${i}</a></li>`;
+        }" onclick="moveToPage(${i})"><a class="page-link" href="#">${i}</a></li>`;
     }
+    if(page < totalPage) {
+        paginationHTML += `<li class="page-item" onclick="moveToPage(${page+1})">
+                        <a class="page-link" href="#">&gt;</a></li>
+                         <li class="page-item" onclick="moveToPage(${totalPage})">
+                        <a class="page-link" href='#'>&gt;&gt;</a>
+                       </li>`;
+    }                    
     document.querySelector(".pagination").innerHTML = paginationHTML
 
 //     <nav aria-label="Page navigation example">
@@ -138,7 +157,7 @@ const paginationRender = () => {
 };
 
 const moveToPage = (pageNum) => {
-    console.log("movetopage", pageNum);
+    console.log("moveToPage", pageNum);
     page = pageNum;
     getNews()
 };

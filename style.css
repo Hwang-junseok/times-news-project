@@ -27,6 +27,8 @@
 .news-img-size{
     max-width: 100%;
     max-height: 250px;
+    margin-right: 1em;
+    text-align: center;
 }
 .news{
     border-bottom: 2px solid black;
@@ -66,4 +68,63 @@
 .side-menu-list button:hover {
     background-color: beige;
     border-radius: 3px;
+}
+.pagination-nav {
+    display: flex;
+    justify-content: center;
+}
+.hide {
+    display: none;
+}
+#input-area {
+    display: none;
+}
+@media screen and (max-width: 63rem) {
+    .hide {
+        display: inline;
+    }
+    .menus {
+        display: none;
+    }
+}
+
+.pagination {
+    margin-top: 1em;
+}
+
+.page-item.active .page-link{
+    background-color: rgb(99, 223, 99);
+    color: white;
+    border-color: rgb(99, 223, 99);
+}
+.page-link {
+    color: rgb(99, 223, 99);
+}
+.col-lg-8{
+    margin-top:1em
+}
+.title {
+  font-size: 20pt;
+  text-decoration: none;
+  color: black;
+  font-weight: bold;
+  margin-top: 2em;
+}
+
+.icon-button {
+    padding: 8px 8px 8px;
+    margin-top: 5px;
+}
+.icon-button:hover {
+    background-color: rgb(78, 223, 78);
+}
+
+
+
+.search-button {
+  background-color: rgb(78, 223, 78);
+  border: 1px solid rgb(100, 227, 100);
+  color: rgb(255, 255, 255);
+  height: 33px;
+  border-radius: 3px;
 }
